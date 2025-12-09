@@ -5,12 +5,13 @@ export const users = pgTable('users', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => uuidv7()),
+  name: text('name').notNull(),
   email: text('email').notNull().unique(),
   password: text('password').notNull(),
   createdAt: text('created_at')
     .notNull()
     .$defaultFn(() => new Date().toISOString()),
-  updateAt: text('update_at')
+  updatedAt: text('updated_at')
     .notNull()
     .$defaultFn(() => new Date().toISOString())
     .$onUpdateFn(() => new Date().toISOString()),

@@ -8,6 +8,20 @@
       "when": 1765290212918,
       "tag": "0000_optimal_red_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1765297613183,
+      "tag": "0001_short_impossible_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1765297986045,
+      "tag": "0002_dizzy_piledriver",
+      "breakpoints": true
     }
   ]
 }
