@@ -5,6 +5,7 @@ import 'express-async-errors'
 
 import cookieParser from 'cookie-parser'
 import errorMiddleware from '@/middlewares/error.middleware'
+import { authRouter } from '@/routes'
 
 class App {
   public app: express.Express
@@ -27,6 +28,8 @@ class App {
     this.app.get('/', (_req, res) => {
       res.status(200).json({ Hello: 'world!' })
     })
+
+    this.app.use('/auth', authRouter)
 
     this.app.use('*', (_req, res) => {
       res.status(404).json({ message: 'Not found' })
