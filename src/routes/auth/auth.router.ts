@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import bodyValidationMiddleware from '@/middlewares/body-validation.middleware'
 import { AuthController } from './auth.controller'
-import { loginSchama, registerSchema } from './auth.schemas'
+import { loginSchema, registerSchema } from './auth.schemas'
 import { AuthService } from './auth.service'
 
 const authService = new AuthService()
@@ -11,11 +11,12 @@ const authRouter = Router()
 
 authRouter.post(
   '/login',
-  bodyValidationMiddleware(loginSchama),
+  bodyValidationMiddleware(loginSchema),
   authController.login,
 )
 
-authRouter.post('/register',
+authRouter.post(
+  '/register',
   bodyValidationMiddleware(registerSchema),
   authController.register,
 )
