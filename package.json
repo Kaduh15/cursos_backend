@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "pretest": "dotenv -e .env.test drizzle-kit migrate",
+    "pretest:watch": "dotenv -e .env.test drizzle-kit migrate",
+    "test:watch": "dotenv -e .env.test vitest watch",
     "format": "biome format --write",
     "lint": "biome check --write --unsafe",
     "db:generate": "drizzle-kit generate",
@@ -30,14 +33,20 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
+    "@faker-js/faker": "^10.1.0",
     "@types/cookie-parser": "^1.4.10",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.2",
     "@types/pg": "^8.15.6",
+    "@types/supertest": "^6.0.3",
+    "dotenv-cli": "^11.0.0",
     "drizzle-kit": "^0.31.8",
+    "supertest": "^7.1.4",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^4.0.15"
   }
 }
