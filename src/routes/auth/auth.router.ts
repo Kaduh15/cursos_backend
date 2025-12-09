@@ -1,10 +1,14 @@
 import { Router } from 'express'
+
 import bodyValidationMiddleware from '@/middlewares/body-validation.middleware'
+import { UserRepository } from '@/repositories/user.repository'
+
 import { AuthController } from './auth.controller'
 import { loginSchema, registerSchema } from './auth.schemas'
 import { AuthService } from './auth.service'
 
-const authService = new AuthService()
+const userRepository = new UserRepository()
+const authService = new AuthService(userRepository)
 const authController = new AuthController(authService)
 
 const authRouter = Router()

@@ -1,15 +1,16 @@
 import { crypt } from '@/libs/crypt'
 import { jwt } from '@/libs/jwt'
-import { UserRepository } from '@/repositories/user.repository'
+import type { UserRepository } from '@/repositories/user.repository'
 import { BadRequestError, UnauthorizedError } from '@/utils/http-errors'
 import type { LoginSchema, RegisterSchema } from './auth.schemas'
 
 export class AuthService {
   private auth = jwt
-  private model = UserRepository
+
+  constructor(private readonly userRepository: UserRepository) {}
 
   async login(data: LoginSchema) {
-    const user = await this.model.getByEmail(data.email)
+    const user = await this.userRepository.getByEmail(data.email)
     if (!user) {
       throw new UnauthorizedError('Credentials invalid')
     }
@@ -26,7 +27,7 @@ export class AuthService {
   }
 
   async register(data: RegisterSchema) {
-    const existingUser = await this.model.getByEmail(data.email)
+    const existingUser = await this.userRepository.getByEmail(data.email)
 
     if (existingUser) {
       throw new BadRequestError('Email already in use')
@@ -34,7 +35,7 @@ export class AuthService {
 
     const hashedPassword = await crypt.hash(data.password)
 
-    const user = await this.model.create({
+    const user = await this.userRepository.create({
       name: data.name,
       email: data.email,
       password: hashedPassword,

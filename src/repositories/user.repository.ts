@@ -4,30 +4,45 @@ import { db } from '@/db'
 import { users } from '@/db/schema'
 import type { RegisterSchema } from '@/routes/auth/auth.schemas'
 
-export const UserRepository = {
-  create,
-  getByEmail,
-}
+export class UserRepository {
+  constructor(private readonly database = db) {}
 
-async function create(data: RegisterSchema) {
-  const [user] = await db
-    .insert(users)
-    .values({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    })
-    .returning()
+  async create(data: RegisterSchema) {
+    const [user] = await this.database.insert(users).values(data).returning()
 
-  return user
-}
+    return user
+  }
 
-async function getByEmail(email: string) {
-  const [user] = await db
-    .select()
-    .from(users)
-    .where(eq(users.email, email))
-    .limit(1)
+  async getByEmail(email: string) {
+    const [user] = await this.database
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1)
 
-  return user
+    return user
+  }
+
+  async getById(id: string) {
+    return await this.database
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1)
+      .then(([user]) => user)
+  }
+
+  async update(id: string, data: Partial<RegisterSchema>) {
+    const [user] = await this.database
+      .update(users)
+      .set(data)
+      .where(eq(users.id, id))
+      .returning()
+
+    return user
+  }
+
+  async delete(id: string) {
+    await this.database.delete(users).where(eq(users.id, id))
+  }
 }
