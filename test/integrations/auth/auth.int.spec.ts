@@ -1,7 +1,8 @@
-import { faker } from '@faker-js/faker'
+import { fakerPT_BR as faker } from '@faker-js/faker'
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
 import { app } from '@/app'
+import { makeUser } from '../../factories/make-user'
 
 describe('Auth Integration Tests', () => {
   it('should register a user successfully', async () => {
@@ -17,22 +18,17 @@ describe('Auth Integration Tests', () => {
     expect(response.body).toEqual({})
 
     const cookies = response.headers['set-cookie'] as unknown as Array<string>
+    
     expect(cookies).toBeDefined()
     expect(cookies.find((cookie) => cookie.startsWith('token='))).toBeDefined()
   })
 
   it('should login a user successfully', async () => {
-    const userData = {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      password: 'StrongP@ssw0rd!',
-    }
-
-    await request(app).post('/auth/register').send(userData)
+    const { user, passwordBeforeHash } = await makeUser()
 
     const response = await request(app)
       .post('/auth/login')
-      .send({ email: userData.email, password: userData.password })
+      .send({ email: user.email, password: passwordBeforeHash })
 
     expect(response.status).toBe(200)
 
