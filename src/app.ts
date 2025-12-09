@@ -3,6 +3,7 @@ import express from 'express'
 
 import 'express-async-errors'
 
+import cookieParser from 'cookie-parser'
 import errorMiddleware from '@/middlewares/error.middleware'
 
 class App {
@@ -17,6 +18,8 @@ class App {
 
   private config(): void {
     this.app.use(cors())
+    this.app.use(cookieParser())
+    this.app.use(express.urlencoded({ extended: true }))
     this.app.use(express.json())
   }
 
