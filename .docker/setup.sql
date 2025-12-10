@@ -1,0 +1,1 @@
+CREATE DATABASE cursos_db_teste;
