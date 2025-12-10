@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto'
-import { fakerPT_BR } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/pt_BR'
 import type { InferSelectModel } from 'drizzle-orm'
 
 import { db } from '@/db'
 import { users } from '@/db/schema'
-import { crypt } from '@/libs/crypt'
+import { crypt } from '@/lib/crypt'
 
 type UserType = InferSelectModel<typeof users>
 
@@ -13,14 +13,17 @@ interface MakeUserReturn {
   passwordBeforeHash: string
 }
 
-export async function makeUser(): Promise<MakeUserReturn> {
-  const passwordBeforeHash = randomUUID()
+export async function makeUser(
+  override?: Partial<UserType>,
+): Promise<MakeUserReturn> {
+  const passwordBeforeHash = override?.password ?? randomUUID()
 
   const [user] = await db
     .insert(users)
     .values({
-      name: fakerPT_BR.person.fullName(),
-      email: fakerPT_BR.internet.email().toLocaleLowerCase(),
+      name: faker.person.fullName(),
+      email: faker.internet.email().toLocaleLowerCase(),
+      ...override,
       password: await crypt.hash(passwordBeforeHash),
     })
     .returning()

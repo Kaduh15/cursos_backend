@@ -1,4 +1,4 @@
-import { fakerPT_BR as faker } from '@faker-js/faker'
+import { faker } from '@faker-js/faker/locale/pt_BR'
 import request from 'supertest'
 import { describe, expect, it } from 'vitest'
 import { app } from '@/app'
@@ -18,7 +18,7 @@ describe('Auth Integration Tests', () => {
     expect(response.body).toEqual({})
 
     const cookies = response.headers['set-cookie'] as unknown as Array<string>
-    
+
     expect(cookies).toBeDefined()
     expect(cookies.find((cookie) => cookie.startsWith('token='))).toBeDefined()
   })
