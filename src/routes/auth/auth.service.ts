@@ -1,5 +1,5 @@
-import { crypt } from '@/libs/crypt'
-import { jwt } from '@/libs/jwt'
+import { crypt } from '@/lib/crypt'
+import { jwt } from '@/lib/jwt'
 import type { UserRepository } from '@/repositories/user.repository'
 import { BadRequestError, UnauthorizedError } from '@/utils/http-errors'
 import type { LoginSchema, RegisterSchema } from './auth.schemas'
