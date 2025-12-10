@@ -1,11 +1,11 @@
+import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import express from 'express'
 
 import 'express-async-errors'
 
-import cookieParser from 'cookie-parser'
 import errorMiddleware from '@/middlewares/error.middleware'
-import { authRouter } from '@/routes'
+import { authRouter, courseRouter } from '@/routes'
 
 class App {
   public app: express.Express
@@ -30,6 +30,7 @@ class App {
     })
 
     this.app.use('/auth', authRouter)
+    this.app.use('/courses', courseRouter)
 
     this.app.use('*', (_req, res) => {
       res.status(404).json({ message: 'Not found' })
