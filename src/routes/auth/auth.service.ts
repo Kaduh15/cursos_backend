@@ -6,7 +6,7 @@ import type { LoginSchema, RegisterSchema } from './auth.schemas'
 
 export class AuthService {
   private auth = jwt
-  
+
   constructor(private readonly userRepository: UserRepository) {}
 
   async me(userId: string) {

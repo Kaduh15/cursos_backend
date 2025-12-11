@@ -1,4 +1,4 @@
-import type { NextFunction, Request, Response } from 'express'
+import type { Request, Response } from 'express'
 import { StatusCodes } from '@/utils/https-status-code'
 import type { CourseService } from './couse.service'
 

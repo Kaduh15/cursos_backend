@@ -29,7 +29,7 @@ export class UserRepository {
       .from(users)
       .where(eq(users.id, id))
       .limit(1)
-    
+
     if (!user) {
       return null
     }

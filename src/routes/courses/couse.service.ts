@@ -3,7 +3,7 @@ import type { CreateCourseSchema, UpdateCourseSchema } from './course.schemas'
 
 export class CourseService {
   constructor(private readonly repository: CourseRepository) {}
-  
+
   async delete(id: string) {
     await this.repository.delete(id)
   }
