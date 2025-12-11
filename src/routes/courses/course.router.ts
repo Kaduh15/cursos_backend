@@ -15,6 +15,7 @@ const courseRouter = Router()
 
 courseRouter.post(
   '/',
+  authMiddleware(),
   bodyValidationMiddleware(createCourseSchema),
   courseController.create,
 )
@@ -28,5 +29,9 @@ courseRouter.get(
 )
 
 courseRouter.get('/total', courseController.totalCourses)
+
+courseRouter.put('/:id', authMiddleware(), courseController.update)
+
+courseRouter.delete('/:id', authMiddleware(), courseController.delete)
 
 export { courseRouter }
