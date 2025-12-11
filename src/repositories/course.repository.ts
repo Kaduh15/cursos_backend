@@ -2,6 +2,7 @@ import { eq } from 'drizzle-orm'
 
 import { db } from '@/db'
 import { courses } from '@/db/schema'
+import { NotFoundError } from '@/utils/http-errors'
 import type {
   CreateCourseSchema,
   UpdateCourseSchema,
@@ -9,7 +10,7 @@ import type {
 
 export class CourseRepository {
   constructor(private readonly database = db) {}
-  
+
   async countAll() {
     const total = await this.database.$count(courses)
 
@@ -45,6 +46,12 @@ export class CourseRepository {
   }
 
   async update(id: string, data: UpdateCourseSchema) {
+    const hasCourse = await this.getById(id)
+
+    if (!hasCourse) {
+      throw new NotFoundError('Course not found')
+    }
+
     const [course] = await this.database
       .update(courses)
       .set(data)
@@ -55,6 +62,12 @@ export class CourseRepository {
   }
 
   async delete(id: string) {
+    const hasCourse = await this.getById(id)
+
+    if (!hasCourse) {
+      throw new NotFoundError('Course not found')
+    }
+
     await this.database.delete(courses).where(eq(courses.id, id))
   }
 }
