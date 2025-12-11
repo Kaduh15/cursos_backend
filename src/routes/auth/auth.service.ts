@@ -6,8 +6,20 @@ import type { LoginSchema, RegisterSchema } from './auth.schemas'
 
 export class AuthService {
   private auth = jwt
-
+  
   constructor(private readonly userRepository: UserRepository) {}
+
+  async me(userId: string) {
+    const hasUser = await this.userRepository.getById(userId)
+
+    if (!hasUser) {
+      throw new UnauthorizedError()
+    }
+
+    const { password: _, ...user } = hasUser
+
+    return user
+  }
 
   async login(data: LoginSchema) {
     const user = await this.userRepository.getByEmail(data.email)

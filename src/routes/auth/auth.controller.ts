@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express'
 import { cookieOptions } from '@/utils/cookie-config'
+import { UnauthorizedError } from '@/utils/http-errors'
 import { StatusCodes } from '@/utils/https-status-code'
 import type { AuthService } from './auth.service'
 
@@ -8,6 +9,18 @@ export class AuthController {
 
   constructor(service: AuthService) {
     this.service = service
+  }
+
+  me = async (req: Request, res: Response) => {
+    const userId = req.userId
+
+    if (!userId) {
+      throw new UnauthorizedError()
+    }
+
+    const user = await this.service.me(userId)
+
+    return res.status(StatusCodes.OK).json({ user })
   }
 
   login = async (req: Request, res: Response) => {

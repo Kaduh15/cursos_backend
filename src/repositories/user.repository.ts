@@ -24,12 +24,17 @@ export class UserRepository {
   }
 
   async getById(id: string) {
-    return await this.database
+    const [user] = await this.database
       .select()
       .from(users)
       .where(eq(users.id, id))
       .limit(1)
-      .then(([user]) => user)
+    
+    if (!user) {
+      return null
+    }
+
+    return user
   }
 
   async update(id: string, data: Partial<RegisterSchema>) {
