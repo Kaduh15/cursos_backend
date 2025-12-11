@@ -1,0 +1,16 @@
+import { z } from 'zod'
+
+export const loginSchema = z.object({
+  email: z.email().transform((email) => email.toLowerCase()),
+  password: z.string().min(6),
+})
+
+export type LoginSchema = z.infer<typeof loginSchema>
+
+export const registerSchema = z.object({
+  name: z.string().min(2),
+  email: z.email().transform((email) => email.toLowerCase()),
+  password: z.string().min(6),
+})
+
+export type RegisterSchema = z.infer<typeof registerSchema>
