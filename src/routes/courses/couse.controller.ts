@@ -3,6 +3,12 @@ import type { CourseService } from './couse.service'
 
 export class CourseController {
   constructor(private readonly service: CourseService) {}
+  
+  totalCourses = async (_req: Request, res: Response) => {
+    const totalCourses = await this.service.totalCourses()
+    
+    res.status(200).json({ totalCourses })
+  }
 
   create = async (req: Request, res: Response) => {
     const course = await this.service.create(req.body)

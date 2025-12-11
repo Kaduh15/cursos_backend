@@ -9,6 +9,12 @@ import type {
 
 export class CourseRepository {
   constructor(private readonly database = db) {}
+  
+  async countAll() {
+    const total = await this.database.$count(courses)
+
+    return total
+  }
 
   async create(data: CreateCourseSchema) {
     const [course] = await this.database

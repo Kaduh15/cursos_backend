@@ -27,4 +27,6 @@ courseRouter.get(
   courseController.listAll,
 )
 
+courseRouter.get('/total', courseController.totalCourses)
+
 export { courseRouter }
